@@ -42,7 +42,7 @@ exports.registerVehicle = async (req, res) => {
   try {
    
     // Insert the new user into the database
-    const result = await db.query(
+   await db.query(
       `INSERT INTO vehicles(owner_name, vehicle_type, vehicle_model, phone_number, email, district)
        VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`, 
       [owner_name, vehicle_type, vehicle_model, phone_number, email, district]
@@ -50,7 +50,8 @@ exports.registerVehicle = async (req, res) => {
     return res.status(201).json({ message: 'Vehicle registered successfully!' });
     
   } catch (error) {
-    console.error('Error during vehicle registration:', error.message, error.stack);
-    return res.status(500).json({ error: 'Something went wrong' });
+    console.error('Error during vehicle registration:', error);
+    return res.status(500).json({ error: error.message || 'Something went wrong' });
+
   }
 };
