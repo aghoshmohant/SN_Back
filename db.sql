@@ -16,3 +16,5 @@ CREATE TABLE login (
   email VARCHAR(100) UNIQUE,
   password TEXT
 );
+
+create table vehicles (id serial primary key,owner_name varchar(20) not null,vehicle_type varchar(20) not null,vehicle_model varchar(50) not null, phone_number varchar(10) not null,email varchar(30) not null,district varchar(20) not null);
