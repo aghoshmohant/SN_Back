@@ -9,7 +9,6 @@ const signupValidationRules = [
     .isNumeric()
     .withMessage('Phone number must be 10 digits'),
   body('district').notEmpty().withMessage('District is required'),
-  body('state').notEmpty().withMessage('State is required'),
   body('dob').notEmpty().withMessage('Date of birth is required'),
   body('blood_group').notEmpty().withMessage('Blood group is required'),
   body('password')

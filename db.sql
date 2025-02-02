@@ -4,7 +4,6 @@ CREATE TABLE signup (
   email VARCHAR(100) UNIQUE,
   phone_number VARCHAR(15),
   district VARCHAR(100),
-  state VARCHAR(100),
   dob DATE,
   blood_group VARCHAR(5),
   donate_blood BOOLEAN DEFAULT FALSE,

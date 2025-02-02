@@ -16,7 +16,6 @@ exports.signup = async (req, res) => {
     email,
     phone_number,
     district,
-    state,
     dob,
     blood_group,
     donate_blood,
@@ -29,7 +28,6 @@ exports.signup = async (req, res) => {
     !email ||
     !phone_number ||
     !district ||
-    !state ||
     !dob ||
     !blood_group ||
     !password
@@ -66,14 +64,13 @@ exports.signup = async (req, res) => {
     // Insert the new user into the database
     await db.query(
       `INSERT INTO signup 
-      (full_name, email, phone_number, district, state, dob, blood_group, donate_blood, password) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      (full_name, email, phone_number, district, dob, blood_group, donate_blood, password) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
       [
         full_name,
         email,
         phone_number,
         district,
-        state,
         dob,
         blood_group,
         donate_blood,
