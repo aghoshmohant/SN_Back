@@ -53,7 +53,7 @@ exports.signup = async (req, res) => {
 
   try {
     // Check if user already exists
-    const existingUser = await db.query('SELECT * FROM signup WHERE email = $1', [email]);
+    const existingUser = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     if (existingUser.rows.length > 0) {
       return res.status(400).json({ error: 'User already exists' });
     }
@@ -63,7 +63,7 @@ exports.signup = async (req, res) => {
 
     // Insert the new user into the database
     await db.query(
-      `INSERT INTO signup 
+      `INSERT INTO users 
       (full_name, email, phone_number, district, dob, blood_group, donate_blood, password) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
       [
@@ -95,7 +95,7 @@ exports.login = async (req, res) => {
 
   try {
     // Check if user exists
-    const userResult = await db.query('SELECT * FROM signup WHERE email = $1', [email]);
+    const userResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     if (userResult.rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }

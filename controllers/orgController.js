@@ -1,11 +1,12 @@
 const db = require('../config/db');
+const jwt = require('jsonwebtoken');
 
 // Controller to register an organization
 exports.registerOrg = async (req, res) => {
-  const { org_name, phone_number, email, district } = req.body;
+  const { org_name, phone_number, email, district,created_by, } = req.body;
 
   // Basic input validation
-  if (!org_name || !phone_number || !email || !district) {
+  if (!org_name || !phone_number || !email || !district || !created_by) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
@@ -23,9 +24,9 @@ exports.registerOrg = async (req, res) => {
   try {
     // Insert into the organizations table
     const result = await db.query(
-      `INSERT INTO organizations (org_name, phone_number, email, district)
-       VALUES ($1, $2, $3, $4) RETURNING id`,
-      [org_name, phone_number, email, district]
+      `INSERT INTO organizations (org_name, phone_number, email, district,created_by)
+       VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+      [org_name, phone_number, email, district, created_by]
     );
 
     return res.status(201).json({

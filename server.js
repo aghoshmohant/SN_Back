@@ -9,6 +9,7 @@ const errorHandler = require('./middleware/errorHandler');
 const donorRoutes = require('./routes/donorRoutes');
 const requirementRoutes = require('./routes/requirementRoutes');
 const campRoutes = require('./routes/campRoutes');
+const homeRoutes = require('./routes/homeRoutes');
 
 // Initialize Express app
 const app = express();
@@ -25,9 +26,10 @@ app.use('/api/organization', orgRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api', requirementRoutes);
 app.use('/api', campRoutes);
+app.use('/api', homeRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
