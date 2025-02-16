@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerOrg, getOrganizations } = require('../controllers/orgController');
+const { registerOrg, getOrganizations, approveOrganization, rejectOrganization } = require('../controllers/orgController');
 const router = express.Router();
 
 const cors = require('cors');
@@ -10,5 +10,11 @@ router.post('/', registerOrg);
 
 // GET route for fetching the list of all organizations
 router.get('/', getOrganizations);
+
+// PUT route for approving an organization
+router.put('/approve/:id', approveOrganization);
+
+// DELETE route for rejecting an organization
+router.delete('/reject/:id', rejectOrganization);
 
 module.exports = router;
