@@ -11,6 +11,8 @@ const donorRoutes = require('./routes/donorRoutes');
 const requirementRoutes = require('./routes/requirementRoutes');
 const campRoutes = require('./routes/campRoutes');
 const homeRoutes = require('./routes/homeRoutes');
+const disasterRoutes = require('./routes/disasterRoutes');
+const volunteerRoutes = require('./routes/volunteerRoutes'); // Added volunteer routes
 const errorHandler = require('./middleware/errorHandler');
 
 // Initialize Express app
@@ -29,6 +31,9 @@ app.use('/api/donors', donorRoutes);
 app.use('/api', requirementRoutes);
 app.use('/api', campRoutes);
 app.use('/api', homeRoutes);
+app.use('/uploads', express.static('uploads'));
+app.use('/api/disaster', disasterRoutes);
+app.use('/api/volunteer', volunteerRoutes); // Added route for volunteer registration
 
 // Start server
 const PORT = process.env.PORT || 5000;
