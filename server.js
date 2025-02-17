@@ -2,14 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
+
+// Import routes
 const authRoutes = require('./routes/authRoutes');
 const vehicleRoutes = require('./routes/vehicleRoutes');
 const orgRoutes = require('./routes/orgRoutes');
-const errorHandler = require('./middleware/errorHandler');
 const donorRoutes = require('./routes/donorRoutes');
 const requirementRoutes = require('./routes/requirementRoutes');
 const campRoutes = require('./routes/campRoutes');
 const homeRoutes = require('./routes/homeRoutes');
+const errorHandler = require('./middleware/errorHandler');
 
 // Initialize Express app
 const app = express();

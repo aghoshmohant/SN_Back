@@ -1,8 +1,10 @@
 const express = require('express');
+const { getRequirements, addRequirement, deleteRequirement, updateRequirementQuantity } = require('../controllers/requirementController');
 const router = express.Router();
-const { getRequirements } = require('../controllers/requirementController');
 
-// Route to get all requirements
 router.get('/requirements', getRequirements);
+router.post('/requirements', addRequirement);
+router.delete('/requirements/:id', deleteRequirement); // DELETE endpoint
+router.put('/requirements/:id', updateRequirementQuantity); // Added PUT endpoint for updating quantity
 
 module.exports = router;
