@@ -16,11 +16,11 @@ const upload = multer({ storage });
 
 // Controller to register a disaster
 exports.registerDisasters = async (req, res) => {
-  const { disaster_type, affected_area, dob, district } = req.body;
+  const { disaster_type, affected_area, dob, district,created_by } = req.body;
   const imageFile = req.file;
 
   // Basic input validation
-  if (!disaster_type || !affected_area || !dob || !district || !imageFile) {
+  if (!disaster_type || !affected_area || !dob || !district || !imageFile || !created_by) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
@@ -30,9 +30,9 @@ exports.registerDisasters = async (req, res) => {
 
     // Insert the new disaster into the database
     const result = await db.query(
-      `INSERT INTO disaster(disaster_type, affected_area, dob, district, image)
-       VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-      [disaster_type, affected_area, dob, district, imageUrl]
+      `INSERT INTO disaster(disaster_type, affected_area, dob, district, image, created_by)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+      [disaster_type, affected_area, dob, district, imageUrl,created_by]
     );
 
     return res.status(201).json({

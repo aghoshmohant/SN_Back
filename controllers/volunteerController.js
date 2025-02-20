@@ -16,11 +16,11 @@ const upload = multer({ storage });
 
 // Register a new volunteer
 exports.registerVolunteer = async (req, res) => {
-  const { role } = req.body;
+  const { role, created_by } = req.body;
   const certificateFile = req.file;
 
   // Basic input validation
-  if (!role || !certificateFile) {
+  if (!role || !certificateFile || !created_by) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
@@ -30,9 +30,9 @@ exports.registerVolunteer = async (req, res) => {
 
     // Insert the new volunteer into the database
     const result = await db.query(
-      `INSERT INTO volunteer(role, certificate)
-       VALUES ($1, $2) RETURNING id`,
-      [role, certificateUrl]
+      `INSERT INTO volunteer (role, certificate, created_by)
+       VALUES ($1, $2, $3) RETURNING id`,
+      [role, certificateUrl, created_by]
     );
 
     return res.status(201).json({
@@ -45,13 +45,29 @@ exports.registerVolunteer = async (req, res) => {
   }
 };
 
-// Fetch all volunteers
+// Fetch all volunteers with user data
 exports.getVolunteers = async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM volunteer');
+    // Join users and volunteer tables to get all relevant data
+    const query = `
+      SELECT 
+        users.id, 
+        users.full_name, 
+        users.email, 
+        users.phone_number, 
+        users.blood_group, 
+        users.district, 
+        volunteer.role, 
+        volunteer.certificate 
+      FROM users
+      INNER JOIN volunteer ON users.id = volunteer.created_by
+    `;
+    const result = await db.query(query);
+
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'No volunteers found' });
     }
+
     return res.status(200).json(result.rows);
   } catch (error) {
     console.error('Error fetching volunteers:', error);
