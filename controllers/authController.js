@@ -87,15 +87,15 @@ exports.signup = async (req, res) => {
 
 // Login Controller
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
+  if (!username || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
   try {
     // Check if user exists
-    const userResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    const userResult = await db.query('SELECT * FROM authority WHERE name = $1', [username]);
     if (userResult.rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
