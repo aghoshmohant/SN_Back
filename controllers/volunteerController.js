@@ -19,19 +19,16 @@ exports.registerVolunteer = async (req, res) => {
   const { role, created_by } = req.body;
   const certificateFile = req.file;
 
-  // Basic input validation
   if (!role || !certificateFile || !created_by) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
   try {
-    // Construct the public URL for the uploaded certificate
     const certificateUrl = `${req.protocol}://${req.get('host')}/uploads/volunteer/${certificateFile.filename}`;
 
-    // Insert the new volunteer into the database
     const result = await db.query(
-      `INSERT INTO volunteer (role, certificate, created_by)
-       VALUES ($1, $2, $3) RETURNING id`,
+      `INSERT INTO volunteer (role, certificate, created_by, is_verified)
+       VALUES ($1, $2, $3, false) RETURNING id`,
       [role, certificateUrl, created_by]
     );
 
@@ -48,7 +45,6 @@ exports.registerVolunteer = async (req, res) => {
 // Fetch all volunteers with user data
 exports.getVolunteers = async (req, res) => {
   try {
-    // Join users and volunteer tables to get all relevant data
     const query = `
       SELECT 
         users.id, 
@@ -57,8 +53,10 @@ exports.getVolunteers = async (req, res) => {
         users.phone_number, 
         users.blood_group, 
         users.district, 
+        volunteer.id AS volunteer_id,
         volunteer.role, 
-        volunteer.certificate 
+        volunteer.certificate,
+        volunteer.is_verified
       FROM users
       INNER JOIN volunteer ON users.id = volunteer.created_by
     `;
@@ -75,5 +73,47 @@ exports.getVolunteers = async (req, res) => {
   }
 };
 
+// Approve a volunteer (set is_verified to true)
+exports.approveVolunteer = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await db.query(
+      `UPDATE volunteer SET is_verified = true WHERE id = $1 RETURNING *`,
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+
+    return res.status(200).json({ message: 'Volunteer approved successfully!' });
+  } catch (error) {
+    console.error('Error approving volunteer:', error);
+    return res.status(500).json({ error: 'Failed to approve volunteer' });
+  }
+};
+
+// Reject a volunteer (delete from the database)
+exports.rejectVolunteer = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await db.query(
+      `DELETE FROM volunteer WHERE id = $1 RETURNING *`,
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+
+    return res.status(200).json({ message: 'Volunteer rejected successfully!' });
+  } catch (error) {
+    console.error('Error rejecting volunteer:', error);
+    return res.status(500).json({ error: 'Failed to reject volunteer' });
+  }
+};
+
 // Export multer middleware to use in the routes
-exports.upload = upload.single('certificate'); // Expect a single file with the field name "certificate"
+exports.upload = upload.single('certificate');

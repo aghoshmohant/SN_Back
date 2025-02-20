@@ -8,4 +8,10 @@ router.post('/register', volunteerController.upload, volunteerController.registe
 // Route to fetch all volunteers
 router.get('/list', volunteerController.getVolunteers);
 
+// Route to approve a volunteer
+router.put('/approve/:id', volunteerController.approveVolunteer);
+
+// Route to reject a volunteer
+router.delete('/reject/:id', volunteerController.rejectVolunteer);
+
 module.exports = router;
