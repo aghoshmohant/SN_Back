@@ -47,8 +47,7 @@ const sendEmailToVolunteers = async (volunteerCall) => {
           <li>Contact Number: ${contact_number}</li>
           <li><a href="${map_link}" target="_blank">View Map</a></li>
         </ul>
-        <p>If you are available, please click the button below to accept:</p>
-        <a href="www.youtube.com" style="padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none;">Accept Volunteer Call</a>
+        
       `,
     };
 

@@ -16,11 +16,11 @@ const upload = multer({ storage });
 
 // Controller to register a disaster
 exports.registerDisasters = async (req, res) => {
-  const { disaster_type, affected_area, dob, district, created_by } = req.body;
+  const { disaster_type, affected_area, dob, district, description, created_by } = req.body;
   const imageFile = req.file;
 
   // Basic input validation
-  if (!disaster_type || !affected_area || !dob || !district || !imageFile || !created_by) {
+  if (!disaster_type || !affected_area || !dob || !district || !description || !imageFile || !created_by) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
@@ -30,9 +30,9 @@ exports.registerDisasters = async (req, res) => {
 
     // Insert the new disaster into the database
     const result = await db.query(
-      `INSERT INTO disaster (disaster_type, affected_area, dob, district, image, created_by, is_verified)
-       VALUES ($1, $2, $3, $4, $5, $6, false) RETURNING id`,
-      [disaster_type, affected_area, dob, district, imageUrl, created_by]
+      `INSERT INTO disaster (disaster_type, affected_area, dob, district, description, image, created_by, is_verified)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, false) RETURNING id`,
+      [disaster_type, affected_area, dob, district, description, imageUrl, created_by]
     );
 
     return res.status(201).json({
@@ -45,13 +45,12 @@ exports.registerDisasters = async (req, res) => {
   }
 };
 
-// Controller to fetch all unverified disasters
+// Controller to fetch all disasters (with optional verification filter)
 exports.getDisasters = async (req, res) => {
-
   const { verified } = req.query;
-  const isVerified = verified === 'true'
+  const isVerified = verified === 'true';
   try {
-    const result = await db.query('SELECT * FROM disaster WHERE is_verified = $1',[isVerified]);
+    const result = await db.query('SELECT * FROM disaster WHERE is_verified = $1', [isVerified]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'No disasters found' });
     }
@@ -105,4 +104,4 @@ exports.rejectDisaster = async (req, res) => {
 };
 
 // Export multer middleware to use in the routes
-exports.upload = upload.single('image');  // Expect a single file with the field name "image"
+exports.upload = upload.single('image');

@@ -10,7 +10,7 @@ const isValidEmail = (email) => {
 // Controller to send disaster emails
 exports.sendDisasterEmails = async (req, res) => {
   try {
-    console.log("Fetching emails from users table...");
+    console.log("Fetching emails from users table...")        ;
 
     // Fetch all emails from the "email" table
     const result = await db.query('SELECT email FROM email');

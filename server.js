@@ -14,9 +14,9 @@ const homeRoutes = require('./routes/homeRoutes');
 const disasterRoutes = require('./routes/disasterRoutes');
 const volunteerRoutes = require('./routes/volunteerRoutes');
 const vehicleCallRoutes = require('./routes/callVehicleRoutes');
-const testRoutes = require('./routes/testRoutes'); // Test routes 
-// New call vehicle routes
+const testRoutes = require('./routes/testRoutes'); 
 const callVolunteerRoutes = require('./routes/callVolunteerRoutes');
+const headRegisterRoutes = require('./routes/HeadRegisterRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 // Initialize Express app
@@ -41,6 +41,7 @@ app.use('/api/volunteer', volunteerRoutes);
 app.use('/api/test', testRoutes);
 app.use('/api/call-vehicle', vehicleCallRoutes);
 app.use('/api/call-volunteer', callVolunteerRoutes);
+app.use('/api/head-register', headRegisterRoutes);
 
 
 const PORT = process.env.PORT || 5000;
