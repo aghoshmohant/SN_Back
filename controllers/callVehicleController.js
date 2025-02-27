@@ -42,7 +42,6 @@ const sendEmailToVehicleOwners = async (vehicleCall) => {
           <li>Count: ${count}</li>
           <li>Contact Number: ${contact_number}</li>
           <li><a href="${map_link}" target="_blank">View Map</a></li>
-        </ul>
       `,
     };
 

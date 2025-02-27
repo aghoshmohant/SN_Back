@@ -46,6 +46,7 @@ const sendEmailToVolunteers = async (volunteerCall) => {
           <li>Count: ${count}</li>
           <li>Contact Number: ${contact_number}</li>
           <li><a href="${map_link}" target="_blank">View Map</a></li>
+          <a href="http://localhost:3000/home" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-family: Arial, sans-serif;">Go to Home Page</a>
         </ul>
         
       `,

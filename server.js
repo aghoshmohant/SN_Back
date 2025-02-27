@@ -17,6 +17,14 @@ const vehicleCallRoutes = require('./routes/callVehicleRoutes');
 const testRoutes = require('./routes/testRoutes'); 
 const callVolunteerRoutes = require('./routes/callVolunteerRoutes');
 const headRegisterRoutes = require('./routes/HeadRegisterRoutes');
+const adminLoginRoutes = require('./routes/adminLoginRoutes');
+const adminHomeRoutes = require('./routes/adminHomeRoutes');
+const headVerificationRoutes = require("./routes/headVerificationRoutes");
+const authorityRoutes = require("./routes/adminAuthRoutes");
+const adminProfileRoutes = require('./routes/adminProfileRoutes');
+const headProfileRoutes = require("./routes/headProfileRoutes");
+const bloodBankRoutes = require('./routes/bloodBankRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 // Initialize Express app
@@ -42,6 +50,15 @@ app.use('/api/test', testRoutes);
 app.use('/api/call-vehicle', vehicleCallRoutes);
 app.use('/api/call-volunteer', callVolunteerRoutes);
 app.use('/api/head-register', headRegisterRoutes);
+app.use('/api', adminLoginRoutes);
+app.use('/api', adminHomeRoutes);
+app.use("/api", headVerificationRoutes);
+app.use("/api/authority", authorityRoutes);
+app.use('/api', adminProfileRoutes);
+app.use("/api/headProfileRoute", headProfileRoutes);
+app.use('/api', bloodBankRoutes);
+app.use('/api', contactRoutes);
+
 
 
 const PORT = process.env.PORT || 5000;
