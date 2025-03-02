@@ -115,5 +115,31 @@ exports.rejectVolunteer = async (req, res) => {
   }
 };
 
+exports.getVolunteerByUserId = async (req, res) => {
+  const userId = req.user?.id || req.params.userId; // Assuming user ID comes from auth middleware or params
+
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID is required' });
+  }
+
+  try {
+    const result = await db.query(
+      `SELECT id AS volunteer_id, role, is_verified 
+       FROM volunteer 
+       WHERE created_by = $1`,
+      [userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'No volunteer profile found for this user' });
+    }
+
+    return res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error fetching volunteer by user ID:', error);
+    return res.status(500).json({ error: 'Failed to fetch volunteer data' });
+  }
+};
+
 // Export multer middleware to use in the routes
 exports.upload = upload.single('certificate');

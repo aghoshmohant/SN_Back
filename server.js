@@ -25,6 +25,8 @@ const adminProfileRoutes = require('./routes/adminProfileRoutes');
 const headProfileRoutes = require("./routes/headProfileRoutes");
 const bloodBankRoutes = require('./routes/bloodBankRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const volunteerIdRoutes = require('./routes/volunteerIdRoutes');
+const vehicleIdCRoutes = require('./routes/vehicleIdRoutes')
 const errorHandler = require('./middleware/errorHandler');
 
 // Initialize Express app
@@ -58,6 +60,8 @@ app.use('/api', adminProfileRoutes);
 app.use("/api/headProfileRoute", headProfileRoutes);
 app.use('/api', bloodBankRoutes);
 app.use('/api', contactRoutes);
+app.use('/api', volunteerIdRoutes);
+app.use('/api', vehicleIdCRoutes); 
 
 
 
