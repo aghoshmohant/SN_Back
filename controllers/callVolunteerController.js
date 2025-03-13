@@ -1,7 +1,6 @@
 const db = require('../config/db');
 const nodemailer = require('nodemailer');
 
-// Function to send emails to volunteers (unchanged)
 const sendEmailToVolunteers = async (volunteerCall) => {
   try {
     const { role, location, district, count, map_link, contact_number } = volunteerCall;
@@ -54,7 +53,6 @@ const sendEmailToVolunteers = async (volunteerCall) => {
   }
 };
 
-// Controller to register a volunteer call (unchanged)
 exports.registerVolunteerCall = async (req, res) => {
   const { location, district, count, role, map_link, contact_number } = req.body;
 
@@ -82,7 +80,6 @@ exports.registerVolunteerCall = async (req, res) => {
   }
 };
 
-// Controller to fetch all volunteer calls (unchanged)
 exports.getVolunteerCalls = async (req, res) => {
   try {
     const result = await db.query('SELECT * FROM volunteer_calls');
@@ -96,7 +93,6 @@ exports.getVolunteerCalls = async (req, res) => {
   }
 };
 
-// Controller to handle accepting volunteer calls (unchanged)
 exports.acceptVolunteerCall = async (req, res) => {
   const { callId, volunteerId, role, userId } = req.body;
 
@@ -153,7 +149,6 @@ exports.acceptVolunteerCall = async (req, res) => {
   }
 };
 
-// New controller to fetch accepted calls for a user
 exports.getAcceptedCalls = async (req, res) => {
   const userId = req.params.userId;
 

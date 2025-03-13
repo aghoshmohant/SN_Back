@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const nodemailer = require('nodemailer');
 
-// Function to send email notifications (unchanged)
+// Function to send email notifications
 const sendEmailToVehicleOwners = async (vehicleCall) => {
   try {
     const { vehicle_type, location, district, count, contact_number, map_link } = vehicleCall;
@@ -142,7 +142,6 @@ exports.getAcceptedVehicleCalls = async (req, res) => {
       'SELECT vehicle_call_id FROM accepted_vehicles WHERE accepted_by = $1',
       [userId]
     );
-    // Always return an array, even if empty, instead of 404
     res.status(200).json(result.rows);
   } catch (error) {
     console.error('Error fetching accepted vehicle calls:', error);
